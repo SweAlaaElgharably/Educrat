@@ -6,12 +6,15 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - .:/usr/src/app
       - db_data:/usr/src/app/data 
+    networks:
+      - crai_net
 volumes:
   db_data:
-
-
+networks:
+  crai_net:
+    external: true
