@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'user.apps.UserConfig',
     'category.apps.CategoryConfig',
+    'content.apps.ContentConfig',
 ]
 
 MIDDLEWARE = [
@@ -158,8 +159,8 @@ DJOSER = {
     'LOGIN_FIELD': 'username',
     'PASSWORD_RESET_CONFIRM_URL': 'resetpassword/{uid}/{token}',
     'EMAIL_FRONTEND_PROTOCOL': 'https',
-    'EMAIL_FRONTEND_DOMAIN': 'crai-ksa.netlify.app/en/',
-    'EMAIL_FRONTEND_SITE_NAME': 'Educrat',
+    'EMAIL_FRONTEND_DOMAIN': 'cr-ai.cloud/en',
+    'EMAIL_FRONTEND_SITE_NAME': 'CR-AI',
     'SEND_ACTIVATION_EMAIL': True,
     'SEND_CONFIRMATION_EMAIL': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
@@ -179,7 +180,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    "https://crai-ksa.netlify.app",
     "http://cr-ai.cloud"
 ]
 
