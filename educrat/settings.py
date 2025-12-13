@@ -29,7 +29,20 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['alaaelgharably248.pythonanywhere.com', '127.0.0.1', 'localhost', 'api.cr-ai.cloud', '72.62.42.5']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'api.cr-ai.cloud', 'cr-ai.cloud', '72.62.42.5']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://api.cr-ai.cloud',
+    'https://cr-ai.cloud',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
+
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = False  # PythonAnywhere handles SSL
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
@@ -47,11 +60,12 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'category.apps.CategoryConfig',
     'content.apps.ContentConfig',
+    'lesson.apps.LessonConfig',
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -182,7 +196,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    "http://cr-ai.cloud"
+    "https://cr-ai.cloud",
+    "https://api.cr-ai.cloud",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

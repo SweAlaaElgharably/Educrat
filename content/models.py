@@ -7,7 +7,7 @@ class Content(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="contents")
-    creater = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contents")
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contents")
     price = models.DecimalField(max_digits=8, decimal_places=2)
     is_published = models.BooleanField(default=False)
 
