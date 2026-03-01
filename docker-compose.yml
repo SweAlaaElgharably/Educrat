@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    container_name: django_web
+    restart: unless-stopped
+    env_file:
+      - .env
+    expose:
+      - "8000"
+    volumes:
+      - .:/usr/src/app
+      - media_data:/app/media
+      - db_data:/usr/src/app/data 
+    networks:
+      - crai_net
+volumes:
+  db_data:
+  media_data:
+networks:
+  crai_net:
+    external: true
