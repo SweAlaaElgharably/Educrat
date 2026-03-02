@@ -10,23 +10,23 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from user.permissions import *
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 # Create your views here.
 
 TAP_SECRET = os.environ.get("TAP_SECRET")
 
-@csrf_exempt
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def create_charge(request):
     if request.method == "POST":
         data = json.loads(request.body)
         method = data.get("method", "src_all")
-        if method == "card":
-            method = "src_card"
-        elif method == "mada":
-            method = "src_sa.mada"
-        elif method == "apple":
-            method = "src_apple_pay"
-        elif method == "samsung":
-            method = "src_samsung_pay"
+        if method == "card": method = "src_card"
+        elif method == "mada": method = "src_sa.mada"
+        elif method == "apple": method = "src_apple_pay"
+        elif method == "samsung": method = "src_samsung_pay"
         order = Order.objects.create(user = request.user, amount = data["amount"], status = "pending", method = method)
         payload = {
             "amount": data.get("amount"),
@@ -47,7 +47,8 @@ def create_charge(request):
         url = response.get("transaction", {}).get("url")
         return JsonResponse({"url": transaction_url})
 
-@csrf_exempt
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def tap_webhook(request):
     payload = json.loads(request.body)
     status = payload.get("status")
