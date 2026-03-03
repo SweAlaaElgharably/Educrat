@@ -45,7 +45,7 @@ def create_charge(request):
         res = requests.post("https://api.tap.company/v2/charges", json=payload, headers={"Authorization": f"Bearer {TAP_SECRET}", "Content-Type": "application/json",},);
         response = res.json()
         url = response.get("transaction", {}).get("url")
-        return JsonResponse({"url": transaction_url})
+        return JsonResponse({"url": url})
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
