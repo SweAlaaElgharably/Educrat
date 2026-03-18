@@ -9,10 +9,12 @@ from .serializers import OrderSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from user.permissions import *
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from content.models import Content
+from content.serializers import ContentSerializer
+
 # Create your views here.
 
 TAP_SECRET = os.environ.get("TAP_SECRET")
@@ -81,15 +83,9 @@ class OrderRetrieveView(RetrieveAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAdminUser]
         
-# # User Courses
-# from .models import Course, Enrollment
-# from .serializers import CourseSerializer
-
-# class MyCoursesAPIView(ListAPIView):
-#     serializer_class = CourseSerializer
-#     permission_classes = [IsAuthenticated]
-
-#     def get_queryset(self):
-#         return Course.objects.filter(
-#             enrollment__user=self.request.user
-#         ).distinct()
+# User Content
+class MyContentAPIView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ContentSerializer
+    def get_queryset(self):
+        return Content.objects.filter(enrollment__user=self.request.user).select_related("subcategory", "creator")
