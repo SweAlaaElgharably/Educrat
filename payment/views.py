@@ -19,16 +19,37 @@ from content.serializers import ContentSerializer
 
 TAP_SECRET = os.environ.get("TAP_SECRET")
 
+{
+    "amount": 10,
+    "currency": "SAR",
+    "metadata": {"order_id": "test 1", "courses": "test 2"},
+    "customer":{"first_name":"test", "last_name":"test", "email":"test@test.com"},
+    "merchant": {"id": "68015154"},   
+    "source": {"id": "src_sa.stcpay", "phone": {"country_code": "966", "number": "548220713"}},
+    "post": {"url": "https://api.cr-ai.cloud/webhook/"},
+    "redirect": {"url": "https://www.cr-ai.cloud/en/payment/success"}
+}
+
+
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_charge(request):
     if request.method == "POST":
         data = json.loads(request.body)
         method = data.get("method", "src_all")
+        phone = ""
         if method == "card": method = "src_card"
         elif method == "mada": method = "src_sa.mada"
         elif method == "apple": method = "src_apple_pay"
         elif method == "samsung": method = "src_samsung_pay"
+        elif method == "stcpay": 
+            method = "src_sa.stcpay"
+            try:
+                phone = data.get("phone")
+            except:
+                phone = ""
         order = Order.objects.create(user = request.user, amount = data["amount"], status = "pending", method = method)
         payload = {
             "amount": data.get("amount"),
@@ -41,13 +62,37 @@ def create_charge(request):
             "merchant": {"id": "68023551"},
             "source": {"id": method},
             "metadata": {"order_id": order.id, "courses": data.get("courses")},
-            "post": {"url": "#"},
-            "redirect": {"url": "#"}
+            "post": {"url": "https://api.cr-ai.cloud/webhook/"},
+            "redirect": {"url": "https://www.cr-ai.cloud/en/payment/success"}
         }
+        if phone:
+            payload["source"]["phone"] = {"country_code": "966", "number": phone}
         res = requests.post("https://api.tap.company/v2/charges", json=payload, headers={"Authorization": f"Bearer {TAP_SECRET}", "Content-Type": "application/json",},);
         response = res.json()
         url = response.get("transaction", {}).get("url")
-        return JsonResponse({"url": url})
+        id = response.get("id")
+        return JsonResponse({"url": url, "id": id})
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def update_charge(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        id = data.get("id")
+        otp = data.get("otp")
+        payload = {
+            "gateway_response": {
+                "name": "STC_PAY",
+                "response": {
+                    "reference": {
+                        "otp": otp
+                    }
+                }
+            }
+        }
+        res = requests.put(f"https://api.tap.company/v2/charges/{id}", json=payload, headers={"Authorization": f"Bearer {TAP_SECRET}", "Content-Type": "application/json",},);
+        response = res.json()
+        return JsonResponse(response)
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
