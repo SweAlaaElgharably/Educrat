@@ -59,7 +59,7 @@ def create_charge(request):
                 "last_name": data.get("last_name"),
                 "email": data.get("email"),
             },
-            "merchant": {"id": "68023551"},
+            "merchant": {"id": "68015154"},
             "source": {"id": method},
             "metadata": {"order_id": order.id, "courses": data.get("courses")},
             "post": {"url": "https://api.cr-ai.cloud/webhook/"},
