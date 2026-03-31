@@ -55,6 +55,7 @@ def create_charge(request):
         payload["source"]["phone"] = {"country_code": "966", "number": phone}
     res = requests.post("https://api.tap.company/v2/charges", json=payload, headers={"Authorization": f"Bearer {TAP_SECRET}", "Content-Type": "application/json",})
     response = res.json()
+    print("PAYLOAD:", payload)
     print("TAP RESPONSE:", response)  
     if res.status_code != 200:
         order.delete()
