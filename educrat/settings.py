@@ -221,9 +221,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.hostinger.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER") 
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD") 
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
+EMAIL_HOST_USER = 'admin@cr-ai.cloud' 
+EMAIL_HOST_PASSWORD = 'Crai@1357' 
+DEFAULT_FROM_EMAIL = 'admin@cr-ai.cloud'
+EMAIL_USE_TLS = False
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "CRAI API",
