@@ -47,7 +47,7 @@ def create_charge(request):
         },
         "merchant": {"id": "68015154"},
         "source": {"id": method},
-        "metadata": {"order_id": order.id, "courses": data.get("courses")},
+        "metadata": {"order_id": order.id, "courses": ",".join(str(c) for c in data.get("courses", []))},
         "post": {"url": "https://api.cr-ai.cloud/webhook/"},
         "redirect": {"url": "https://www.cr-ai.cloud/en/payment/success"}
     }
@@ -100,7 +100,7 @@ def tap_webhook(request):
     charge_id = payload.get("id")
     metadata = payload.get("metadata", {})
     order_id = metadata.get("order_id")
-    course_ids = metadata.get("courses", [])
+    course_ids = metadata.get("courses", "").split(",")
     print("WEBHOOK PAYLOAD:", payload)
     if not order_id:
         return JsonResponse({"ok": False, "error": "No order_id"}, status=200)

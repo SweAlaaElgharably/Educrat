@@ -229,6 +229,18 @@ EMAIL_USE_TLS = False
 SPECTACULAR_SETTINGS = {
     "TITLE": "CRAI API",
     "DESCRIPTION": "API Documentation",
-    "VERSION": "1.0.0"
+    "VERSION": "1.0.0",
+    "SERVERS": [{"url": "https://api.cr-ai.cloud"}],
+    "COMPONENT_SPLIT_REQUEST": True,
+    "AUTHENTICATION_WHITELIST": [],
+    "SECURITY_SCHEMES": {
+        "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT",
+        }
+    },
 }
 
+    
+    
