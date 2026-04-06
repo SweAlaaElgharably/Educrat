@@ -8,4 +8,5 @@ urlpatterns = [
     path('order/', OrderListView.as_view()),
     path('order/<int:pk>', OrderRetrieveView.as_view()),
     path('my-content/', MyContentAPIView.as_view()),
+    path('statics/', statics),
 ]
