@@ -23,3 +23,4 @@ class AdminUserDestroyView(DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = AdminUserSerializer
     permission_classes = [IsAdminUser] 
+

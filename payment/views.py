@@ -141,3 +141,16 @@ class MyContentAPIView(ListAPIView):
     serializer_class = ContentSerializer
     def get_queryset(self):
         return Content.objects.filter(enrollment__user=self.request.user).select_related("subcategory", "creator")
+
+# Statics
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def statics(request):
+    return JsonResponse({
+        "total_orders": Order.objects.count(),
+        "total_enrollments": Enrollment.objects.count(),
+        "total_contents": Content.objects.count(),
+        "total_users": User.objects.count(),
+        "total_influencers": User.objects.filter(is_influencer=True).count(),
+        "total_clients": User.objects.filter(is_influencer=False).count(),
+    })
