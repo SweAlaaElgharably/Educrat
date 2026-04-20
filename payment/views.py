@@ -36,7 +36,7 @@ def create_charge(request):
     elif method == "stcpay":
         method = "src_sa.stcpay"
         phone = data.get("phone", "")
-    order = Order.objects.create(user=request.user, amount=data["amount"], status="pending", method=method)
+    order = Order.objects.create(user=request.user, amount=data.get("amount"), status="pending", method=method)
     payload = {
         "amount": data.get("amount"),
         "currency": "SAR",
