@@ -222,7 +222,7 @@ EMAIL_HOST = 'smtp.hostinger.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'admin@cr-ai.cloud' 
-EMAIL_HOST_PASSWORD = 'Crai@1357' 
+EMAIL_HOST_PASSWORD = 'peig-ilhm-z6yh-3gai' 
 DEFAULT_FROM_EMAIL = 'admin@cr-ai.cloud'
 EMAIL_USE_TLS = False
 
